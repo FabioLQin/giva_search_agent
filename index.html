@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assistenza AI - Ricerca Ticket</title>
+
+    <!-- Stile base -->
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f1f3f6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+      header {
+        background-color: #004aad;
+        color: white;
+        text-align: center;
+        padding: 30px 20px;
+        width: 100%;
+      }
+      header img {
+        height: 60px;
+        margin-bottom: 15px;
+      }
+      main {
+        margin-top: 40px;
+        width: 100%;
+        max-width: 800px;
+        padding: 0 20px;
+      }
+      #searchWidgetTrigger {
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 1.1rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        margin-bottom: 20px;
+      }
+      footer {
+        margin-top: auto;
+        padding: 20px;
+        text-align: center;
+        font-size: 0.9rem;
+        color: #888;
+      }
+    </style>
+
+    <!-- Google OAuth 2.0 -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Vertex AI Widget Client -->
+    <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=it"></script>
+  </head>
+
+  <body>
+    <header>
+      <img src="image (7).png" alt="Logo Azienda" />
+      <h1>Assistenza AI</h1>
+      <p>Trova rapidamente soluzioni ai ticket di supporto usando Vertex AI.</p>
+    </header>
+
+    <main>
+      <input placeholder="Cerca qui" id="searchWidgetTrigger" />
+      <gen-search-widget
+        configId="58fa1873-8507-49aa-a27e-a70e4a90c6a1"
+        triggerId="searchWidgetTrigger">
+      </gen-search-widget>
+    </main>
+
+    <footer>© 2025 Assistenza AI — Tutti i diritti riservati.</footer>
+
+    <script>
+    window.onload = () => {
+      const tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: "771682904706-0r4ue5qla76u46hjujnkf3s5i0v5nfma.apps.googleusercontent.com",
+        scope: 'https://www.googleapis.com/auth/cloud-platform',
+        callback: (tokenResponse) => {
+          const accessToken = tokenResponse.access_token;
+          console.log("✅ Token ottenuto:", accessToken);
+
+          const searchWidget = document.querySelector('gen-search-widget');
+          searchWidget.authToken = accessToken;
+        },
+      });
+
+      // Richiede accesso al caricamento
+      tokenClient.requestAccessToken();
+    };
+    </script>
+  </body>
+</html>
